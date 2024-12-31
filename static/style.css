@@ -1,0 +1,102 @@
+/* 通用样式 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+}
+
+h1 {
+  display: flex;
+  align-items: center; /* 垂直居中对齐 */
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+h1 .icon {
+  width: 48px; /* 图标宽度 */
+  height: 48px; /* 图标高度 */
+  margin-right: 5px; /* 图标与文本之间的间距 */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box; /* 确保内边距不会影响整体宽度 */
+}
+
+label {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px -10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+  width: 100%; /* 按钮全宽显示 */
+  max-width: 200px; /* 限制最大宽度 */
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button#downloadZipButton {
+  margin-top: 15px;
+  display: none;
+}
+
+/* 提示消息样式 */
+p {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+#responseMessage {
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px;
+  text-align: center;
+}

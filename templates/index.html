@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixiv Image Downloader</title>
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="manifest" href="/static/manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/static/service-worker.js').then(registration => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</head>
+<body>
+  <h1>
+    <img src="/static/icons/96x96.png" alt="Icon" class="icon">
+    Pixiv Image Downloader
+  </h1>
+  
+  <form id="artworkForm">
+    <label for="artworkId">Enter Pixiv Artwork ID or URL:</label><br>
+    <input type="text" id="artworkId" name="artworkId" required><br>
+    <label for="selectOriginalImage">
+      <input type="checkbox" id="selectOriginalImage" name="selectOriginalImage" checked> Download original image
+    </label>
+    <button type="submit">Download</button>
+  </form>
+
+  <p id="responseMessage"></p>
+
+  <button id="downloadZipButton" style="display: none;">Download ZIP</button>
+
+  <script>
+    const form = document.getElementById("artworkForm");
+    const responseMessage = document.getElementById("responseMessage");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const artworkInput = document.getElementById("artworkId").value.trim();
+
+      // get artworkId from URL
+      const match = artworkInput.match(/artworks\/(\d+)/);
+      const artworkId = match ? match[1] : artworkInput;
+
+      if (!artworkId || isNaN(artworkId)) {
+        responseMessage.textContent = "Invalid artwork ID or URL.";
+        return;
+      }
+
+      if (!!artworkId) {
+        responseMessage.textContent = `Download starts for artwork ${artworkId}.`;
+      }
+
+      const selectOriginalImage = document.getElementById("selectOriginalImage").checked;
+      
+      const response = await fetch("/fetch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ artworkId, selectOriginalImage }),
+      });
+
+      const result = await response.json();
+      responseMessage.textContent = result.message || result.error;
+
+      if (!result.error) {
+        downloadZipButton.style.display = "inline-block";
+        downloadZipButton.onclick = () => {
+          window.location.href = `/download/${artworkId}?imageQuality=${selectOriginalImage? "original": "large"}`;
+        };
+      }
+    });
+  </script>
+</body>
+</html>
